@@ -52,13 +52,7 @@ RUN apt-get install curl -y
 RUN curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py
 RUN python2 get-pip.py
 RUN apt-get install fuse -y
-#Install libfuse
-ARG LIBFUSE_VERSION=fuse-3.9.3
 
-# Installs LibFUSE so we dont end up with errors
-# in coreos when trying to mount rclone.
-# https://github.com/libfuse/libfuse
-# https://github.com/libfuse/libfuse/releases
 RUN apt-get update && apt-get upgrade -y && \
     apt-get -y install \
         build-essential \
@@ -68,18 +62,16 @@ RUN apt-get update && apt-get upgrade -y && \
         libudev-dev \
         udev
 
-RUN wget -O "fuse.tar.xz" "https://github.com/libfuse/libfuse/releases/download/${LIBFUSE_VERSION}/${LIBFUSE_VERSION}.tar.xz" && \
+RUN wget -O "fuse.tar.xz" "https://github.com/libfuse/libfuse/releases/download/fuse-3.9.3/fuse-3.9.3.tar.xz" && \
     tar -xf fuse.tar.xz && \
     rm -f fuse.tar.xz && mv fuse* fuse
 
-# Installing util/fusermount3 to /usr/local/bin/fusermount3
-# Installing util/mount.fuse3 to /usr/local/sbin/mount.fuse3
 RUN cd fuse && \
     mkdir build && cd build && \
     meson .. && ninja install
     
 RUN pip install kubefuse
-RUN curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.19.0/bin/linux/amd64/kubectl
 RUN chmod +x ./kubectl
 RUN mv ./kubectl /usr/local/bin/kubectl
 RUN kubectl version --client
