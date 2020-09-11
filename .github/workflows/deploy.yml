@@ -15,3 +15,11 @@ jobs:
 
       - name: push image to registry
         run: docker image push ${{ secrets.REGISTRY_USERNAME }}/inferno-os:latest
+      
+      - name: Notify Telegram
+        uses: yanzay/notify-telegram@v0.1.0
+        if: always()
+        with:
+          chat: ${{ secrets.TGBOT_CHAT }} 
+          token: ${{ secrets.TGBOT_TOKEN }} 
+          status: ${{ job.status }} 
