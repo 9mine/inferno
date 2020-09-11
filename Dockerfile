@@ -77,5 +77,6 @@ RUN mv ./kubectl /usr/local/bin/kubectl
 RUN kubectl version --client
 RUN mkdir /usr/inferno-os/kubernetes
 COPY commands.sh /commands.sh
+
 ENTRYPOINT ["/bin/bash", "/commands.sh"]
 
