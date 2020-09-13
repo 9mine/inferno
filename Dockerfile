@@ -42,7 +42,6 @@ COPY --from=builder /usr/inferno-os/appl $ROOT_DIR/appl
 COPY --from=builder /usr/inferno-os/lib $ROOT_DIR/lib
 COPY --from=builder /usr/inferno-os/module $ROOT_DIR/module
 COPY --from=builder /usr/inferno-os/usr $ROOT_DIR/usr
-COPY profile /usr/inferno-os/lib/sh/profile 
 RUN apt-get update && \
     apt-get install -y software-properties-common --fix-missing
 RUN add-apt-repository universe
@@ -76,7 +75,6 @@ RUN chmod +x ./kubectl
 RUN mv ./kubectl /usr/local/bin/kubectl
 RUN kubectl version --client
 RUN mkdir /usr/inferno-os/kubernetes
-COPY commands.sh /commands.sh
 
-ENTRYPOINT ["/bin/bash", "/commands.sh"]
+ENTRYPOINT ["emu-g"]
 
