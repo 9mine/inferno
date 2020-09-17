@@ -75,6 +75,11 @@ RUN chmod +x ./kubectl
 RUN mv ./kubectl /usr/local/bin/kubectl
 RUN kubectl version --client
 RUN mkdir /usr/inferno-os/kubernetes
-
+RUN mkdir /usr/inferno-os/keydb
+RUN mkdir -p /usr/inferno-os/mnt/keys
+RUN mkdir -p /usr/inferno-os/usr/root/keyring
+RUN mkdir -p /n/client
+RUN touch /usr/inferno-os/keydb/keys
+COPY profile /usr/inferno-os/lib/sh/profile
 ENTRYPOINT ["emu-g"]
 
