@@ -54,6 +54,7 @@ RUN apt-get install fuse -y
 
 RUN apt-get update && apt-get upgrade -y && \
     apt-get -y install \
+        traceroute    \
         build-essential \
         wget \
         meson \
